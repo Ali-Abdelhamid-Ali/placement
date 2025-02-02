@@ -2,11 +2,22 @@ import streamlit as st
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import requests
+import io
 
 @st.cache_resource
 def load_model():
-    model = pickle.load(open("https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl", "rb"))
-    return model
+    url = "https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl?raw=true"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        model = pickle.load(io.BytesIO(response.content))  # تحميل النموذج من الذاكرة
+        return model
+    else:
+        raise Exception("Failed to download the model.")
+
+model = load_model()
+
 
 best_model = load_model()
 
