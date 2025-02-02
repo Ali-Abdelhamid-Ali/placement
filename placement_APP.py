@@ -5,14 +5,13 @@ import matplotlib.pyplot as plt
 import requests
 import io
 
-
-@st.cache_data  # تخزين البيانات في كاش Streamlit لتجنب إعادة التحميل
+@st.cache_data  
 def load_model():
     url = "https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl?raw=true"
     response = requests.get(url)
     
     if response.status_code == 200:
-        model = pickle.load(io.BytesIO(response.content))  # تحميل النموذج من الذاكرة
+        model = pickle.load(io.BytesIO(response.content))  
         return model
     else:
         st.error("Failed to download the model.")
