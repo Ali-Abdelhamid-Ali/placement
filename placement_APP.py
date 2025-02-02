@@ -2,13 +2,29 @@ import streamlit as st
 import pickle
 import numpy as np
 import matplotlib.pyplot as plt
+import requests
+import io
 
-@st.cache_resource
+
+@st.cache_data  # تخزين البيانات في كاش Streamlit لتجنب إعادة التحميل
 def load_model():
-    model = pickle.load(open("https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl", "rb"))
-    return model
+    url = "https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl?raw=true"
+    response = requests.get(url)
+    
+    if response.status_code == 200:
+        model = pickle.load(io.BytesIO(response.content))  # تحميل النموذج من الذاكرة
+        return model
+    else:
+        st.error("Failed to download the model.")
+        return None
 
 best_model = load_model()
+
+if best_model:
+    st.write("Model loaded successfully!")
+else:
+    st.write("Failed to load model.")
+
 
 def classify_placement(CGPA, Internships, Projects, Workshops_Certifications, AptitudeTestScore,
                        SoftSkillsRating, ExtracurricularActivities, PlacementTraining, SSC_Marks, HSC_Marks):
