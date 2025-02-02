@@ -5,7 +5,7 @@ import matplotlib.pyplot as plt
 
 @st.cache_resource
 def load_model():
-    model = pickle.load(open(r"D:\AMIT\amit\ML\placement task eng.MO\placement\placement.pkl", "rb"))
+    model = pickle.load(open("https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl", "rb"))
     return model
 
 best_model = load_model()
