@@ -7,12 +7,11 @@ import io
 
 @st.cache_resource
 def load_model():
-    # رابط الملف على GitHub مع إضافة "?raw=true" لتحميل الملف الخام
     url = "https://github.com/Ali-Abdelhamid-Ali/placement/blob/main/placement.pkl?raw=true"
     response = requests.get(url)
 
     if response.status_code == 200:
-        model = pickle.load(io.BytesIO(response.content))  # تحميل الموديل من الذاكرة
+        model = pickle.load(io.BytesIO(response.content)) 
         return model
     else:
         st.error("Failed to download the model.")
